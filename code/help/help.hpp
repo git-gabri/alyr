@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-void print_help(std::ostream& os){
-    os << "Finish me\n";
-}
+void print_help(std::ostream& os);
 
 #endif

@@ -18,9 +18,9 @@ void alyr::internals::block_renderer(const size_t& start_x,      const size_t& s
                 default:
                 case coloring_mode::binary:
                     if(lyap_exp_matr[y][x] >= 0)
-                        current_pixel = ppalette.front();
+                        current_pixel = ppalette.back();
                     else
-                        current_pixel = npalette.front();
+                        current_pixel = npalette.back();
                     break;
 
                 //Linear coloring
@@ -39,25 +39,40 @@ void alyr::internals::block_renderer(const size_t& start_x,      const size_t& s
                         break;
                     }
 
-                    //Normalized exponent to [0, 1]
-                    const long double normalized_exp = ((exp_sign == 0) ? lyap_exp_matr[y][x] / max_pos : lyap_exp_matr[y][x] / min_neg);
+                    //Normalize and clamp exponent to [0, 1]
+                    const long double pos_exp_normalization_factor = std::min(max_pos, rsettings.upper_pos_clamp);
+                    const long double neg_exp_normalization_factor = std::max(min_neg, rsettings.lower_neg_clamp);
+                    const long double clamped_current_lyap_exp =
+                        ((exp_sign == 0) ?
+                            std::clamp(lyap_exp_matr[y][x], rsettings.lower_pos_clamp, rsettings.upper_pos_clamp) :
+                            std::clamp(lyap_exp_matr[y][x], rsettings.lower_neg_clamp, rsettings.upper_neg_clamp)
+                        );
+                    const long double normalized_exp =
+                        ((exp_sign == 0) ?
+                            clamped_current_lyap_exp / pos_exp_normalization_factor :
+                            clamped_current_lyap_exp / neg_exp_normalization_factor
+                        );
                     assert(normalized_exp >= 0 && normalized_exp <= 1);
 
+                    //Select palette based on the sign of the exponent
+                    const auto& selected_pal = ((exp_sign == 0) ? ppalette : npalette);
+
                     //Color selection
-                    const long double fractional_color = ((exp_sign == 0) ? normalized_exp * static_cast<long double>(ppalette.size()) :
-                                                                            normalized_exp * static_cast<long double>(npalette.size()));
+                    const long double fractional_color = normalized_exp * static_cast<long double>(selected_pal.size() - 1);
+
                     //Indexes of the color right after and right before the selected one,
                     //because (probably) fractional_color is not an integer
                     const size_t lower_color_id = size_t(floor(fractional_color));
-                    const size_t upper_color_id = size_t( ceil(fractional_color)) % ((exp_sign == 0) ? ppalette.size() : npalette.size());
+                    const size_t upper_color_id = size_t( ceil(fractional_color)) % (selected_pal.size());
+                    assert(lower_color_id <= upper_color_id);
 
                     //"Percentage", fraction in [0, 1], representing how much to take from every color for linear interpolation
                     const long double lower_color_fraction = fractional_color - static_cast<long double>(lower_color_id);
-                    const long double upper_color_fraction = fractional_color - static_cast<long double>(upper_color_id);
+                    const long double upper_color_fraction = static_cast<long double>(upper_color_id) - fractional_color;
 
                     //Colors to blend
-                    const png::rgb_pixel lower_color = ((exp_sign == 0) ? ppalette[lower_color_id] : npalette[lower_color_id]);
-                    const png::rgb_pixel upper_color = ((exp_sign == 0) ? ppalette[upper_color_id] : npalette[upper_color_id]);
+                    const png::rgb_pixel lower_color = selected_pal[lower_color_id];
+                    const png::rgb_pixel upper_color = selected_pal[upper_color_id];
 
                     current_pixel = png::rgb_pixel(
                         static_cast<long double>(lower_color.red)   * lower_color_fraction + static_cast<long double>(upper_color.red)   * upper_color_fraction,

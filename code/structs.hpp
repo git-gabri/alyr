@@ -52,7 +52,7 @@ struct fractalsettings_t {
         long double _min_rb = 0,
         long double _max_rb = 4,
         long double _min_rc = 0,
-        long double _max_rc = 4
+        long double _max_rc = 0
     ) :
     map_type(_map_type),
     x0(x0_re, x0_im),
@@ -104,19 +104,35 @@ struct rendersettings_t {
     //rtype renderer_type;
 
     size_t max_iter;
+    size_t transient_iter;
     size_t max_sector_size;
     size_t max_threads;
 
+    long double lower_pos_clamp;
+    long double upper_pos_clamp;
+    long double lower_neg_clamp;
+    long double upper_neg_clamp;
+    
     rendersettings_t(
         //const rtype& _renderer_type = rtype::basic,
         const size_t& _max_iter = 2000,
+        const size_t& _transient_iter = 200,
         const size_t& _max_sector_size = 64,
-        const size_t& _max_threads = 1
+        const size_t& _max_threads = 1,
+        const long double& _low_pos_clamp = 0,
+        const long double& _up_pos_clamp = 10000,
+        const long double& _low_neg_clamp = -10000,
+        const long double& _up_neg_clamp = 0
     ) :
     //renderer_type(_renderer_type),
     max_iter(_max_iter),
+    transient_iter(_transient_iter),
     max_sector_size(_max_sector_size),
-    max_threads(_max_threads)
+    max_threads(_max_threads),
+    lower_pos_clamp(_low_pos_clamp),
+    upper_pos_clamp(_up_pos_clamp),
+    lower_neg_clamp(_low_neg_clamp),
+    upper_neg_clamp(_up_neg_clamp)
     {}
 };
 

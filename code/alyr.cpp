@@ -29,7 +29,44 @@ void alyr::internals::print_render_info(){
     using std::cout;
     using std::endl;
 
-    cout << "Finish me" << endl;
+    //Map being rendered
+    cout << "Rendering      : ";
+    std::string map_type_str;
+    switch(fsettings.map_type){
+        case mtype::logmap: map_type_str = "logistic map"; break;
+        case mtype::circmap: map_type_str = "circle map"; break;
+        case mtype::gaussmap: map_type_str = "Gauss map"; break;
+        case mtype::custom: map_type_str = "custom map"; break;
+        default:
+        case mtype::unknown: map_type_str = "unknown/undocumented"; break;
+    }
+    cout << map_type_str << endl;
+
+    //Sequence used
+    cout << "Sequence       : ";
+    for(auto it = rx_sequence.begin(); it != rx_sequence.end(); ++it){
+        switch(*it){
+            case rxtype::A: cout << 'A'; break;
+            case rxtype::B: cout << 'B'; break;
+            case rxtype::C: cout << 'C'; break;
+        }
+    }
+    cout << endl;
+
+    //Image size
+    cout << "Image size     : " << isettings.image_width << "x" << isettings.image_height << endl;
+
+    //Sectors
+    cout << "Sectors up to  : " << rsettings.max_sector_size << "x" << rsettings.max_sector_size << endl;
+
+    //Iterations
+    cout << "Iterations     : " << rsettings.max_iter << endl;
+    cout << "Transient iter.: " << rsettings.transient_iter << endl;
+
+    //Limits of ra, rb and rc
+    cout << "Limits of ra   : [" << fsettings.min_ra << ", " << fsettings.max_ra << "], span : " << fsettings.max_ra - fsettings.min_ra << endl;
+    cout << "Limits of rb   : [" << fsettings.min_rb << ", " << fsettings.max_rb << "], span : " << fsettings.max_rb - fsettings.min_rb << endl;
+    cout << "Limits of rc   : [" << fsettings.min_rc << ", " << fsettings.max_rc << "], span : " << fsettings.max_rc - fsettings.min_rc << endl;
 }
 
 //Print errors and warnings

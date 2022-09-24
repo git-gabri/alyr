@@ -74,13 +74,13 @@ png::image<png::rgb_pixel> alyr::render(){
         );
     }
 
-    vcout << "Completed sectors: 0/" << total_sectors << "\r" << flush;
+    vcout << "Completed sectors (exp): 0/" << total_sectors << "\r" << flush;
     //Once all the jobs are enqueued, wait for all of them to finish
     for(size_t i = 0; i < completed_sectors.size(); ++i){
         completed_sectors[i].get();
-        vcout << "Completed sectors: " << i << "/" << total_sectors << "\r" << flush;
+        vcout << "Completed sectors (exp): " << i << "/" << total_sectors << "\r" << flush;
     }
-    vcout << "Completed sectors: " << total_sectors << "/" << total_sectors << endl;
+    vcout << "Completed sectors (exp): " << total_sectors << "/" << total_sectors << endl;
     completed_sectors.clear();
 
     //----------------------
@@ -121,8 +121,8 @@ png::image<png::rgb_pixel> alyr::render(){
     vcout << "  - NaN count     : " << nan_count << endl;
     sort(abs_pos_exponents.begin(), abs_pos_exponents.end());
     sort(abs_neg_exponents.begin(), abs_neg_exponents.end());
-    vcout << "  - Pos. exponents : [" << abs_pos_exponents.front() << ", " << abs_pos_exponents.back() << "]" << endl;
-    vcout << "  - Neg. exponents : [" << abs_neg_exponents.front() << ", " << abs_neg_exponents.back() << "]" << endl;
+    vcout << "  - Pos. exponents : [" <<  abs_pos_exponents.front() << ", " << abs_pos_exponents.back()  << "] clamped in [" << rsettings.lower_pos_clamp << ", " << rsettings.upper_pos_clamp << "]" << endl;
+    vcout << "  - Neg. exponents : [" << -abs_neg_exponents.back() << ", " << -abs_neg_exponents.front() << "] clamped in [" << rsettings.lower_neg_clamp << ", " << rsettings.upper_neg_clamp << "]" << endl;
     const long double max_pos = abs_pos_exponents.back();
     const long double min_neg = -abs_neg_exponents.back();
 
@@ -159,13 +159,13 @@ png::image<png::rgb_pixel> alyr::render(){
         );
     }
 
-    vcout << "Completed sectors: 0/" << total_sectors << "\r" << flush;
+    vcout << "Completed sectors (color): 0/" << total_sectors << "\r" << flush;
     //Once all the jobs are enqueued, wait for all of them to finish
     for(size_t i = 0; i < completed_sectors.size(); ++i){
         completed_sectors[i].get();
-        vcout << "Completed sectors: " << i << "/" << total_sectors << "\r" << flush;
+        vcout << "Completed sectors (color): " << i << "/" << total_sectors << "\r" << flush;
     }
-    vcout << "Completed sectors: " << total_sectors << "/" << total_sectors << endl;
+    vcout << "Completed sectors (color): " << total_sectors << "/" << total_sectors << endl;
     completed_sectors.clear();
 
     //----------------------

@@ -4,12 +4,12 @@
 #include <complex>
 
 template<typename T>
-T logmap(const T& x, const T& r){
+inline T logmap(const T& x, const T& r){
     return r * x * (T{1} - x);
 }
 
 template<typename T>
-T logmap_der(const T& x, const T& r){
+inline T logmap_der(const T& x, const T& r){
     return r * (T{1} - T{2}*x);
 }
 

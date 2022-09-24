@@ -29,10 +29,10 @@ int alyr::load_palettes(){
         //Open input text file
         ifstream input_file(csettings.name_neg_palette, ifstream::in);
         if(!input_file.is_open()){
-            print_warning("negative palette could not be loaded correctly, defaulting to y/b");
+            print_warning("negative palette could not be loaded correctly, defaulting to black/yellow");
             npalette.clear();
-            npalette.push_back(png::rgb_pixel{255, 255, 0});    //Load yellow
             npalette.push_back(png::rgb_pixel{0, 0, 0});        //Load black
+            npalette.push_back(png::rgb_pixel{255, 255, 0});    //Load yellow
             if(ret_val < 1)
                 ret_val = 1;
         }
@@ -62,10 +62,10 @@ int alyr::load_palettes(){
         //Open input text file
         ifstream input_file(csettings.name_pos_palette, ifstream::in);
         if(!input_file.is_open()){
-            print_warning("positive palette could not be loaded correctly, defaulting to bl/b");
+            print_warning("positive palette could not be loaded correctly, defaulting to black/blue");
             ppalette.clear();
-            ppalette.push_back(png::rgb_pixel{0, 0, 255});      //Load blue
             ppalette.push_back(png::rgb_pixel{0, 0, 0});        //Load black
+            ppalette.push_back(png::rgb_pixel{0, 0, 255});      //Load blue
             if(ret_val < 1)
                 ret_val = 1;
         }

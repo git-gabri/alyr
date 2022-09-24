@@ -183,6 +183,34 @@ int alyr::parse_options(std::vector<std::string> options){
             }   break;
 
             //---------------------------------------------------------------------
+            case cmdline_option::set_sequence:
+            {   if(options.size() < 2){
+                    print_error("not enought arguments have been provided to set the sequence");
+                    return 2;
+                }
+
+                const string tmp_seq = *(options.begin() + 1);
+                const regex re_seq{R"foo(^[ABC]+$)foo"};
+                if(regex_match(tmp_seq, re_seq)){
+                    rx_sequence.clear();
+
+                    for(auto seq_it = tmp_seq.begin(); seq_it != tmp_seq.end(); ++seq_it){
+                        switch(*seq_it){
+                            default:
+                            case 'A':   rx_sequence.push_back(rxtype::A);   break;
+                            case 'B':   rx_sequence.push_back(rxtype::B);   break;
+                            case 'C':   rx_sequence.push_back(rxtype::C);   break;
+                        }
+                    }
+                }
+                else{
+                    print_error("unspecified/specified sequence is invalid");
+                    return 2;
+                }
+
+            }   break;
+
+            //---------------------------------------------------------------------
             case cmdline_option::set_x0_re:
             {   long double tmp_real;
                 if(string_to_ld(options, options.begin() + 1, tmp_real)){
@@ -205,6 +233,72 @@ int alyr::parse_options(std::vector<std::string> options){
             }   break;
 
             //---------------------------------------------------------------------
+            case cmdline_option::set_min_ra:
+            {   long double tmp_min;
+                if(string_to_ld(options, options.begin() + 1, tmp_min)){
+                    print_error("unspecified/specified value for the minimum ra is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.min_ra = tmp_min;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_max_ra:
+            {   long double tmp_max;
+                if(string_to_ld(options, options.begin() + 1, tmp_max)){
+                    print_error("unspecified/specified value for the maximum ra is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.max_ra = tmp_max;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_min_rb:
+            {   long double tmp_min;
+                if(string_to_ld(options, options.begin() + 1, tmp_min)){
+                    print_error("unspecified/specified value for the minimum rb is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.min_rb = tmp_min;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_max_rb:
+            {   long double tmp_max;
+                if(string_to_ld(options, options.begin() + 1, tmp_max)){
+                    print_error("unspecified/specified value for the maximum rb is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.max_rb = tmp_max;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_min_rc:
+            {   long double tmp_min;
+                if(string_to_ld(options, options.begin() + 1, tmp_min)){
+                    print_error("unspecified/specified value for the minimum rc is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.min_rc = tmp_min;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_max_rc:
+            {   long double tmp_max;
+                if(string_to_ld(options, options.begin() + 1, tmp_max)){
+                    print_error("unspecified/specified value for the maximum rc is invalid");
+                    return 2;
+                }
+                else
+                    fsettings.max_rc = tmp_max;
+            }   break;
+
+            //---------------------------------------------------------------------
             case cmdline_option::set_max_iterations:
             {   size_t tmp_max_iter;
                 if(string_to_st(options, options.begin() + 1, tmp_max_iter)){
@@ -213,6 +307,61 @@ int alyr::parse_options(std::vector<std::string> options){
                 }
                 else
                     rsettings.max_iter = tmp_max_iter;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_transient_iterations:
+            {   size_t tmp_transient_iter;
+                if(string_to_st(options, options.begin() + 1, tmp_transient_iter)){
+                    print_error("unspecified/specified number of transient iterations is invalid");
+                    return 2;
+                }
+                else
+                    rsettings.transient_iter = tmp_transient_iter;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_low_pos_clamp:
+            {   long double tmp_low;
+                if(string_to_ld(options, options.begin() + 1, tmp_low)){
+                    print_error("unspecified/specified lower clamping value for positive exponents is invalid");
+                    return 2;
+                }
+                else
+                    rsettings.lower_pos_clamp = tmp_low;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_upp_pos_clamp:
+            {   long double tmp_upp;
+                if(string_to_ld(options, options.begin() + 1, tmp_upp)){
+                    print_error("unspecified/specified upper clamping value for positive exponents is invalid");
+                    return 2;
+                }
+                else
+                    rsettings.upper_pos_clamp = tmp_upp;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_low_neg_clamp:
+            {   long double tmp_low;
+                if(string_to_ld(options, options.begin() + 1, tmp_low)){
+                    print_error("unspecified/specified lower clamping value for negative exponents is invalid");
+                    return 2;
+                }
+                else
+                    rsettings.lower_neg_clamp = tmp_low;
+            }   break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::set_upp_neg_clamp:
+            {   long double tmp_upp;
+                if(string_to_ld(options, options.begin() + 1, tmp_upp)){
+                    print_error("unspecified/specified upper clamping value for negative exponents is invalid");
+                    return 2;
+                }
+                else
+                    rsettings.upper_neg_clamp = tmp_upp;
             }   break;
 
             //---------------------------------------------------------------------
