@@ -28,6 +28,10 @@ enum class cmdline_option{
     set_width, set_height,
     set_output_image_filename,
 
+    save_lyap_exp_matrix,
+    load_lyap_exp_matrix,
+    skip_coloring,
+
     set_sector_size,
     set_max_threads,
 
@@ -61,6 +65,10 @@ const std::map<cmdline_option, size_t> map_cmdlineopt_num_elem_to_pop{
     {cmdline_option::set_width, 2},
     {cmdline_option::set_height, 2},
     {cmdline_option::set_output_image_filename, 2},
+
+    {cmdline_option::save_lyap_exp_matrix, 2},
+    {cmdline_option::load_lyap_exp_matrix, 2},
+    {cmdline_option::skip_coloring, 1},
 
     {cmdline_option::set_sector_size, 2},
     {cmdline_option::set_max_threads, 2},
@@ -104,6 +112,16 @@ const std::map<std::string, cmdline_option> map_str_to_cmdlineopt{
     {"--height",        cmdline_option::set_height},
     {"-o",              cmdline_option::set_output_image_filename},
     {"--output-image-filename", cmdline_option::set_output_image_filename},
+
+    {"-sm",             cmdline_option::save_lyap_exp_matrix},
+    {"--save",          cmdline_option::save_lyap_exp_matrix},
+    {"--save-matrix",   cmdline_option::save_lyap_exp_matrix},
+    {"-lm",             cmdline_option::load_lyap_exp_matrix},
+    {"--load",          cmdline_option::load_lyap_exp_matrix},
+    {"--load-matrix",   cmdline_option::load_lyap_exp_matrix},
+
+    {"--skip",          cmdline_option::skip_coloring},
+    {"--skip-coloring", cmdline_option::skip_coloring},
 
     {"-S",              cmdline_option::set_sector_size},
     {"--sector-size",   cmdline_option::set_sector_size},

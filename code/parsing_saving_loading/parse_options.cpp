@@ -142,6 +142,35 @@ int alyr::parse_options(std::vector<std::string> options){
                 break;
 
             //---------------------------------------------------------------------
+            case cmdline_option::save_lyap_exp_matrix:
+                if(options.size() < 2){
+                    print_error("unspecified/specified output matrix filename is invalid");
+                    return 2;
+                }
+                else{
+                    rsettings.save_exp_matrix = true;
+                    rsettings.lyap_exp_matr_out_filename = *(options.begin() + 1);
+                }
+                break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::load_lyap_exp_matrix:
+                if(options.size() < 2){
+                    print_error("unspecified/specified input matrix filename is invalid");
+                    return 2;
+                }
+                else{
+                    rsettings.load_exp_matrix = true;
+                    rsettings.lyap_exp_matr_in_filename = *(options.begin() + 1);
+                }
+                break;
+
+            //---------------------------------------------------------------------
+            case cmdline_option::skip_coloring:
+                rsettings.skip_coloring = true;
+                break;
+
+            //---------------------------------------------------------------------
             case cmdline_option::set_sector_size:
             {   size_t tmp_secsize;
                 if(string_to_st(options, options.begin() + 1, tmp_secsize)){

@@ -70,6 +70,14 @@ namespace alyr{
                             std::vector<std::vector<long double>>& lyap_exp_matr,
                             png::image<png::rgb_pixel>& img_to_color);
 
+        //Save Lyapunov exponent matrix to file
+        //Implementation:   save_load_lyap_exp_matr.cpp
+        int save_lyap_exp_matrix(const std::vector<std::vector<long double>>& matr, const std::string& filename);
+
+        //Load Lyapunov exponent matrix from file
+        //Implementation:   save_load_lyap_exp_matr.cpp
+        std::vector<std::vector<long double>> load_lyap_exp_matrix(const std::string& filename);
+
         //Compute color based on render data
         //Implementation:   block_renderer.cpp
         //png::rgb_pixel compute_color(const long double& lyap_exp, const std::complex<long double>& x);

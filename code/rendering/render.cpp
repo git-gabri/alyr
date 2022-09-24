@@ -126,6 +126,17 @@ png::image<png::rgb_pixel> alyr::render(){
     const long double max_pos = abs_pos_exponents.back();
     const long double min_neg = -abs_neg_exponents.back();
 
+    //DEBUG STUFF
+    cout << "DEBUG TESTS" << endl;
+    if(save_lyap_exp_matrix(lyap_exponents, "test") == 0)
+        cout << "Saving OK" << endl;
+    else
+        cout << "Saving ERROR" << endl;
+    if(load_lyap_exp_matrix("test") == lyap_exponents)
+        cout << "Loading OK" << endl;
+    else
+        cout << "Loading ERROR" << endl;
+
     //----------------------
     // STEP 3:
     // - color the image block by block

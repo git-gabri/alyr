@@ -42,6 +42,9 @@ void alyr::internals::print_render_info(){
     }
     cout << map_type_str << endl;
 
+    //Floating point variable used
+    cout << "Float type     : long double (" << sizeof(long double) << " bytes)" << endl;
+
     //Sequence used
     cout << "Sequence       : ";
     for(auto it = rx_sequence.begin(); it != rx_sequence.end(); ++it){

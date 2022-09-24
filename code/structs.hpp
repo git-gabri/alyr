@@ -108,10 +108,17 @@ struct rendersettings_t {
     size_t max_sector_size;
     size_t max_threads;
 
+    bool save_exp_matrix;
+    bool load_exp_matrix;
+    bool skip_coloring;
+
     long double lower_pos_clamp;
     long double upper_pos_clamp;
     long double lower_neg_clamp;
     long double upper_neg_clamp;
+
+    std::string lyap_exp_matr_out_filename;
+    std::string lyap_exp_matr_in_filename;
     
     rendersettings_t(
         //const rtype& _renderer_type = rtype::basic,
@@ -119,20 +126,30 @@ struct rendersettings_t {
         const size_t& _transient_iter = 200,
         const size_t& _max_sector_size = 64,
         const size_t& _max_threads = 1,
+        const bool& _save_matr = false,
+        const bool& _load_matr = false,
+        const bool& _skip_coloring = false,
         const long double& _low_pos_clamp = 0,
         const long double& _up_pos_clamp = 10000,
         const long double& _low_neg_clamp = -10000,
-        const long double& _up_neg_clamp = 0
+        const long double& _up_neg_clamp = 0,
+        const std::string& _out_matr_filename = "exponent_matrix",
+        const std::string& _in_matr_filename = "exponent_matrix"
     ) :
     //renderer_type(_renderer_type),
     max_iter(_max_iter),
     transient_iter(_transient_iter),
     max_sector_size(_max_sector_size),
     max_threads(_max_threads),
+    save_exp_matrix(_save_matr),
+    load_exp_matrix(_load_matr),
+    skip_coloring(_skip_coloring),
     lower_pos_clamp(_low_pos_clamp),
     upper_pos_clamp(_up_pos_clamp),
     lower_neg_clamp(_low_neg_clamp),
-    upper_neg_clamp(_up_neg_clamp)
+    upper_neg_clamp(_up_neg_clamp),
+    lyap_exp_matr_out_filename(_out_matr_filename),
+    lyap_exp_matr_in_filename(_in_matr_filename)
     {}
 };
 
