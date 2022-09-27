@@ -5,6 +5,7 @@
 #include "aliases.hpp"
 
 #include <vector>
+#include <array>
 #include <string>
 #include <png++/png.hpp>
 
@@ -51,6 +52,9 @@ namespace alyr{
         void print_error(const std::string& msg);
         void print_warning(const std::string& msg);
 
+        //Function to subdivide the image in "sectors" to parallelize jobs
+        //Implementation: render.cpp
+        std::vector<std::array<size_t, 4>> generate_sectors();
 
         //Function to return a function pointer to a block renderer depending on the settings
         //Implementation:   alyr.cpp
