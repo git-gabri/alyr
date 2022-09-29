@@ -51,14 +51,18 @@ void alyr::internals::block_exp_calculator(const size_t& img_width, const size_t
 
                 //Update the value of xn and of the Lyapunov exponent
                 xn        = (*map_fn)(xn, selected_rx);
-                lyap_exp += 0.5l * std::log(std::norm((*map_der_fn)(xn, selected_rx)));
+                if(iter_count > rsettings.transient_iter)
+                    lyap_exp += 0.5l * std::log(std::norm((*map_der_fn)(xn, selected_rx)));
 
                 //Increment iteration count
                 ++iter_count;
             }
             
             //Take average
-            lyap_exp /= static_cast<long double>(iter_count);
+            if(iter_count > rsettings.transient_iter)
+                lyap_exp /= static_cast<long double>(iter_count - rsettings.transient_iter);
+            else
+                lyap_exp /= static_cast<long double>(iter_count);
             //std::cout << x << ", " << y << " : r = (a = " << ra << ", b = " << rb << ") : exp = " << lyap_exp << std::endl;
 
             //Compute color of pixel
